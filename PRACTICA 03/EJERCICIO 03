@@ -1,0 +1,50 @@
+class Sensor:
+    tipo="Generico"                # Atributo de clase
+
+    def __init__(self, id):
+        self.id=id                 # Atributo de instancia
+        self.encendido=False       # Atributo de instancia
+
+    def activar(self):
+        self.encendido=True
+        print("Sensor activado")
+
+    def desactivar(self):
+        self.encendido=False
+        print("Sensor desactivado")
+
+class Camara(Sensor):
+    tipo="Camara"                   # Atributo de clase
+
+    def __init__(self, id, resolucion):
+        super().__init__(id)
+        self.resolucion=resolucion  # Atributo de instancia
+
+class SensorLuzLaser(Sensor):
+    tipo="Luz Laser"                # Atributo de clase
+
+    def __init__(self, id, alcance):
+        super().__init__(id)
+        self.alcance=alcance        # Atributo de instancia
+
+class VehiculoAutonomo(Camara, SensorLuzLaser):
+    tipo="Vehiculo Autonomo"         #Atributo de clase
+
+    def __init__(self, id, resolucion, alcance):
+        Sensor.__init__(self, id)
+        self.resolucion=resolucion   # Atributo de instancia
+        self.alcance=alcance         # Atributo de instancia
+
+vehiculo=VehiculoAutonomo("V001", "4K", 100)
+
+print("Tipo:", vehiculo.tipo)
+print("ID:", vehiculo.id)
+print("Resolucion:", vehiculo.resolucion)
+print("Alcance:", vehiculo.alcance)
+print("Encendido:", vehiculo.encendido)
+
+vehiculo.activar()
+print("Encendido:", vehiculo.encendido)
+
+vehiculo.desactivar()
+print("Encendido:", vehiculo.encendido)

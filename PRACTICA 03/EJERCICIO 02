@@ -1,0 +1,94 @@
+import random
+class Juego:
+    def __init__(self, numeroVidas):
+        self.numeroVidas=numeroVidas
+        self.vidasIniciales=numeroVidas
+        self.record=0
+
+    def reiniciaPartida(self):
+        self.numeroVidas = self.vidasIniciales
+
+    def actualizaRecord(self):
+        if self.numeroVidas>self.record:
+            self.record=self.numeroVidas
+
+    def quitaVida(self):
+        self.numeroVidas-=1
+
+        if self.numeroVidas>0:
+            return True
+        else:
+            print("Te quedaste sin vidas.")
+            return False
+
+class JuegoAdivinaNumero(Juego):
+    def __init__(self, numeroVidas):
+        super().__init__(numeroVidas)
+        self.numeroAAdivinar=0
+
+    def validaNumero(self, numero):
+        return 0<=numero<=10
+
+    def generaNumero(self):
+        return random.randint(0, 10)
+
+    def juega(self):
+        self.reiniciaPartida()
+        self.numeroAAdivinar=self.generaNumero()
+
+        while True:
+
+            numero=int(input("Adivina un numero entre 0 y 10: "))
+            if not self.validaNumero(numero):
+                print("Numero invalido.")
+                continue
+
+            if numero==self.numeroAAdivinar:
+                print("Acertaste!!")
+                self.actualizaRecord()
+                break
+            else:
+                if not self.quitaVida():
+                    break
+                if numero<self.numeroAAdivinar:
+                    print("El numero es mayor.")
+                else:
+                    print("El numero es menor.")
+                print("Vidas restantes:", self.numeroVidas)
+
+class JuegoAdivinaPar(JuegoAdivinaNumero):
+    def validaNumero(self, numero):
+        if 0<=numero<=10 and numero%2==0:
+            return True
+        else:
+            print("Error: debes ingresar un numero par entre 0 y 10.")
+            return False
+
+    def generaNumero(self):
+        return random.choice([0, 2, 4, 6, 8, 10])
+    
+class JuegoAdivinaImpar(JuegoAdivinaNumero):
+    def validaNumero(self, numero):
+        if 0<=numero<=10 and numero%2!=0:
+            return True
+        else:
+            print("Error: debes ingresar un numero impar entre 0 y 10.")
+            return False
+
+    def generaNumero(self):
+        return random.choice([1, 3, 5, 7, 9])
+
+class Aplicacion:
+    @staticmethod
+    def main():
+        juego1 = JuegoAdivinaNumero(3)
+        juego2 = JuegoAdivinaPar(3)
+        juego3 = JuegoAdivinaImpar(3)
+
+        print("JUEGO DE NUMEROS")
+        juego1.juega()
+        print("\nJUEGO DE NUMEROS PARES")
+        juego2.juega()
+        print("\nJUEGO DE NUMEROS IMPARES")
+        juego3.juega()
+Aplicacion.main()
